@@ -1,44 +1,46 @@
-import {Component, NgModule, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpClientModule} from '@angular/common/http';
-import {CommonModule} from "@angular/common";
-
+import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from "@angular/common";
+import { MovieService } from "../../services/movie.service";
+import { imagesBaseUrl } from "../../constants/images-size";
+import { animate, transition, trigger, state, style } from "@angular/animations";
 
 
 @Component({
-
   selector: 'app-slider',
   templateUrl: './slider.component.html',
-  standalone: true,
   imports: [HttpClientModule, CommonModule],
-  styleUrls: ['./slider.component.css']
+  styleUrls: ['./slider.component.css'],
+  providers: [MovieService],
+  standalone: true,
+  animations: [
+    trigger('slideFade', [
+      state('void', style({opacity: 0})),
+      transition('void <=> *', [animate('1s')]),
+    ]),
+  ]
 })
-
-
 export class SliderComponent implements OnInit {
 
-  movies: any;
+  constructor(private movieService: MovieService) {}
 
-  constructor(private http: HttpClient) {}
+  movies$ = this.movieService.fetchData('popular');
+
+  imagesBaseUrl = imagesBaseUrl;
+
+  slideIndex = 0;
 
   ngOnInit() {
-    this.fetchData();
+    this.changeSlide();
   }
 
-  fetchData() {
-    const headers = new HttpHeaders()
-      .set('Accept', 'application/json')
-      .set('Authorization', 'Bearer  eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NGRlNGNlZGVkNDViZTllZmEzYzEyM2IxMGYwNzQ0YiIsInN1YiI6IjY2MjdlOGYzNjNkOTM3MDE2NDczNzM4YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-5Bnuc4KAgd97q6HUd-BuCy5jM6-zn3Ue3gul-YBfbc');
-
-    this.http.get<any>('https://api.themoviedb.org/3/trending/movie/day?language=en-US', { headers })
-      .subscribe(
-        (response) => {
-          this.movies = response; // Atribui a resposta aos filmes
-          console.log(response); // Exibe a resposta no console
-        },
-        (error) => {
-          console.error('Erro ao buscar dados:', error); // Exibe o erro no console
-        }
-      );
+  changeSlide() {
+    setInterval(() => {
+      this.slideIndex += 1;
+      if (this.slideIndex > 10) {
+        this.slideIndex = 0;
+      }
+    }, 5000);
   }
 }
 
