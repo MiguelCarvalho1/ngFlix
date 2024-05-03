@@ -1,4 +1,5 @@
 @import "primeicons/primeicons.css";
+
 :root {
   --font-roboto: "Roboto", sans-serif;
   --font-weight-thin: 100;
@@ -13,6 +14,10 @@
 
 body {
   font-family: var(--font-roboto);
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #141414 ;
 }
 
 /* Define reusable font classes */
@@ -56,4 +61,8 @@ body {
 /* Apply italic styles */
 .italic {
   font-style: var(--font-style-italic);
+}
+.container{
+  margin: 0.5rem;
+  padding: 0.5rem;
 }

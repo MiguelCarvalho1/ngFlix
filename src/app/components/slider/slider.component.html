@@ -1,6 +1,7 @@
 <div class="slider" *ngIf="movies$ | async as movies">
   <ng-container *ngFor="let movie of movies; let movieIndex = index">
-    <div class="slide" *ngIf="movieIndex === slideIndex" @Component>
+    <div class="slidefade">
+    <div class="slide" *ngIf="movieIndex === slideIndex" >
       <div class="slide-bg">
         <img
           [src]="imagesBaseUrl + 'w1280' + movie.backdrop_path"
@@ -26,6 +27,7 @@
         </div>
         <div class="description">{{ movie.overview }}</div>
       </div>
+    </div>
     </div>
   </ng-container>
 </div>
