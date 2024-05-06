@@ -1,7 +1,7 @@
-<div class="show-item" *ngIf="showItem">
+<a class="show-item" *ngIf="showItem" [routerLink]="'detail/' + showItem.id" >
   <div class="show-item-rating">
     <i class="pi pi-star"></i>
-    <span>{{ showItem.vote_average }}/10</span>
+    <span>{{ showItem.vote_average.toFixed(1) }}/10</span>
   </div>
   <div class="show-item-image">
     <img [src]="imageBaseUrl + '/w500/' + showItem.poster_path" [alt]="showItem.title">
@@ -9,4 +9,4 @@
   <div class="show-item-title">
     {{ showItem.original_title }}
   </div>
-</div>
+</a>

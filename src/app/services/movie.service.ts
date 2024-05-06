@@ -23,4 +23,12 @@ export class MovieService {
       );
   }
 
+  getMovieById(id: string ){
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+
+    return this.http.get<Movie>(`${this.apiUrl}/movie/${id}`, { headers });
+  }
+
 }
