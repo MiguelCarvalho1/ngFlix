@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from "@angular/common";
 import { MovieService } from "../../services/movie.service";
 import { imagesBaseUrl } from "../../constants/images-size";
 import { animate, transition, trigger, state, style } from "@angular/animations";
+import {Movie} from "../../types/movie";
 
 
 @Component({
@@ -22,16 +23,22 @@ import { animate, transition, trigger, state, style } from "@angular/animations"
 })
 export class SliderComponent implements OnInit {
 
-  constructor(private movieService: MovieService) {}
+  @Input() slides : Movie[] = [];
+  @Input() isHeader = false;
 
-  movies$ = this.movieService.fetchData('popular');
+  constructor() {}
 
-  imagesBaseUrl = imagesBaseUrl;
+
+
+
 
   slideIndex = 0;
 
   ngOnInit() {
-    this.changeSlide();
+    if(!this.isHeader) {
+      this.changeSlide();
+    }
+
   }
 
   changeSlide() {
@@ -42,6 +49,8 @@ export class SliderComponent implements OnInit {
       }
     }, 5000);
   }
+
+  protected readonly imagesBaseUrl = imagesBaseUrl;
 }
 
 

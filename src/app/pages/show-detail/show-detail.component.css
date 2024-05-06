@@ -1,0 +1,51 @@
+
+::ng-deep .p-tabview .p-tabview-nav {
+  justify-content: center;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  color: #f53b3e;
+}
+
+::ng-deep .p-tabview .p-tabview-nav .p-tabview-ink-bar {
+  background-color: #f53b3e;
+}
+
+
+.poster {
+  max-width: 100%;
+}
+
+.overview {
+  line-height: 1.5;
+}
+
+.stat {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.stat .label {
+  width: 150px;
+  font-weight: bold;
+}
+
+.stat .value {
+  color: #f53b3e;
+}
+
+.show-image {
+  width: 100%;
+}
+
+.actor {
+  padding: 10px;
+}
+
+.actor img {
+  width: 100%;
+}
+
+.actor div {
+  text-align: center;
+}

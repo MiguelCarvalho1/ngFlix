@@ -11,6 +11,11 @@ export type Movie = {
   title: string;
   vote_average: number;
   vote_count: number;
+  revenue?:number;
+  runtime?:string;
+  status?:string;
+  genres?:Genre[];
+  spoken_languages?:Languages[];
 };
 
 export type MoviesDTO = {
@@ -19,3 +24,13 @@ export type MoviesDTO = {
   total_pages: number;
   total_results: number;
 };
+
+export type Genre = {
+  id:string;
+  name:string;
+}
+
+export type Languages ={
+  iso_639_1:string;
+  name: string;
+}

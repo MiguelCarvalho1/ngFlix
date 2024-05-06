@@ -1,4 +1,4 @@
-<a class="show-item" *ngIf="showItem" [routerLink]="'detail/' + showItem.id" >
+<a class="show-item" *ngIf="showItem" (click)="navigateToDetail()">
   <div class="show-item-rating">
     <i class="pi pi-star"></i>
     <span>{{ showItem.vote_average.toFixed(1) }}/10</span>
@@ -10,3 +10,4 @@
     {{ showItem.original_title }}
   </div>
 </a>
+

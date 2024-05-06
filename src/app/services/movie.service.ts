@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {Movie, MoviesDTO} from "../types/movie";
-import {map, Observable} from 'rxjs';
+import {count, map, Observable} from 'rxjs';
+import {VideosDto} from "../types/video";
+import {ImagesDto} from "../types/image";
+import {CreditsDto} from "../types/credits";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +32,47 @@ export class MovieService {
       .set('Authorization', `Bearer ${this.apiKey}`);
 
     return this.http.get<Movie>(`${this.apiUrl}/movie/${id}`, { headers });
+  }
+
+  getMovieVideos(id: string ){
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${this.apiKey}`);
+      return this.http.get<VideosDto>(`${this.apiUrl}/movie/${id}/videos`, { headers })
+        .pipe(
+          map((data) => data.results));
+  }
+
+  getMoviesImages(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<ImagesDto>(`${this.apiUrl}/movie/${id}/images`, { headers })
+      .pipe(
+        map((data) => data.backdrops));
+
+  }
+
+  getMovieCast(id: string ){
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${this.apiKey}`);
+
+    return this.http.get<CreditsDto>(`${this.apiUrl}/movie/${id}/credits`, { headers })
+      .pipe(
+        map((data) => data.cast)
+      );
+  }
+
+  getMovieSimilar(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<MoviesDTO>(`${this.apiUrl}/movie/${id}/similar`, { headers })
+      .pipe(
+        map((data) => data.results.slice(0,12))
+      );
+
   }
 
 }

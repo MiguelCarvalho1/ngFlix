@@ -22,6 +22,7 @@ import {mapToMovies} from "../../types/tvshow";
   providers: [MovieService, TvshowsService]
 })
 export class HomeComponent {
+  popularMovies$: Observable<Movie[]> = this.movieService.fetchData('popular',12);
   upcomingMovies$: Observable<Movie[]> = this.movieService.fetchData('upcoming',12);
   topRatedMovies$: Observable<Movie[]> = this.movieService.fetchData('top_rated',12);
   popularTvshows$ = this.tvshowsService
