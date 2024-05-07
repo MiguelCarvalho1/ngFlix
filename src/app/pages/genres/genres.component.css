@@ -1,0 +1,20 @@
+.genres-links {
+  margin-top: 20px;
+}
+
+.genres-links a {
+  padding: 8px 16px;
+  background-color: #f53b3e;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+  border-radius: 20px;
+  font-size: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.genres-links a:hover {
+  background-color: #d23e3e;
+}

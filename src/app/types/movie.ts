@@ -30,6 +30,10 @@ export type Genre = {
   name:string;
 }
 
+export type GenreDto = {
+  genres : Genre[];
+}
+
 export type Languages ={
   iso_639_1:string;
   name: string;

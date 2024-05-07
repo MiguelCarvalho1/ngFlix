@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import {Movie, MoviesDTO} from "../types/movie";
+import {GenreDto, Movie, MoviesDTO} from "../types/movie";
 import {count, map, Observable} from 'rxjs';
 import {VideosDto} from "../types/video";
 import {ImagesDto} from "../types/image";
@@ -81,6 +81,34 @@ export class MovieService {
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${this.apiKey}`);
     return this.http.get<MoviesDTO>(`${this.apiUrl}/${uri}?query=${searchValue}&page=${page}`, { headers });
+
+  }
+
+  getMovieGenres( ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+
+    return this.http.get<GenreDto>(`${this.apiUrl}/genre/movie/list`, { headers })
+      .pipe(
+        map((data) => data.genres)
+      );
+  }
+
+  getMovieGenre(genreId: string, pageNumber = 1 ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+
+    return this.http
+      .get<MoviesDTO>(
+        `${this.apiUrl}/discover/movie?with_genres=${genreId}&page=${pageNumber}`, { headers })
+
+      .pipe(
+        map((data) => {
+          return data.results;
+        })
+      );
 
   }
 
