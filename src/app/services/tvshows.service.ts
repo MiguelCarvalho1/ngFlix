@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {TvshowsDto} from "../types/tvshow";
+import {Tvshow, TvshowsDto} from "../types/tvshow";
+import {Movie, MoviesDTO} from "../types/movie";
+import {VideosDto} from "../types/video";
+import {ImagesDto} from "../types/image";
+import {CreditsDto} from "../types/credits";
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +26,53 @@ export class TvshowsService {
       .pipe(
         map((data) => data.results.slice(0, count))
       );
+  }
+  getTvShowById(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+
+    return this.http.get<Tvshow>(`${this.apiUrl}/tv/${id}`, { headers });
+  }
+
+  getTvShowVideos(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<VideosDto>(`${this.apiUrl}/tv/${id}/videos`, { headers })
+      .pipe(
+        map((data) => data.results));
+  }
+
+  getTvShowImages(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<ImagesDto>(`${this.apiUrl}/tv/${id}/images`, { headers })
+      .pipe(
+        map((data) => data.backdrops));
+
+  }
+
+  getTvShowCast(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+
+    return this.http.get<CreditsDto>(`${this.apiUrl}/tv/${id}/credits`, { headers })
+      .pipe(
+        map((data) => data.cast)
+      );
+  }
+
+  getTvShowSimilar(id: string ){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<TvshowsDto>(`${this.apiUrl}/tv/${id}/similar`, { headers })
+      .pipe(
+        map((data) => data.results.slice(0,12))
+      );
+
   }
 }

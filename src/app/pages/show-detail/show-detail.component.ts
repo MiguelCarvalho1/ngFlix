@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MovieService} from "../../services/movie.service";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {Movie} from "../../types/movie";
-import {AsyncPipe, CommonModule, JsonPipe} from "@angular/common";
+import {AsyncPipe, CommonModule, JsonPipe, NgOptimizedImage} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {SliderComponent} from "../../components/slider/slider.component";
 import {TabViewModule} from "primeng/tabview";
@@ -16,6 +16,8 @@ import {Images} from "../../types/image";
 import {BannerComponent} from "../../components/banner/banner.component";
 import {Actor} from "../../types/credits";
 import {CarouselModule} from "primeng/carousel";
+import {TvshowsService} from "../../services/tvshows.service";
+import {mapToMovie, mapToMovies} from "../../types/tvshow";
 
 @Component({
   selector: 'app-show-detail',
@@ -30,15 +32,17 @@ import {CarouselModule} from "primeng/carousel";
     VideoEmbedComponent,
     ImageModule,
     BannerComponent,
-    CarouselModule
+    CarouselModule,
+    NgOptimizedImage
   ],
-  providers: [MovieService],
+  providers: [MovieService,TvshowsService],
   templateUrl: './show-detail.component.html',
   styleUrl: './show-detail.component.css'
 })
 export class ShowDetailComponent implements OnInit {
 
   showId = '';
+  showType: 'tv' | 'movie' = 'movie';
 
   show$: Observable<Movie> | null = null;
   showsVideos$: Observable<Video[]> | null = null;
@@ -48,7 +52,12 @@ export class ShowDetailComponent implements OnInit {
 
   imagesSizes = IMAGES_SIZES
 
-  constructor(private router: Router, private route: ActivatedRoute, private movieService: MovieService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private movieService: MovieService,
+    private tvService: TvshowsService
+  ) {}
 
   ngOnInit(): void {
     //this.route.params.subscribe(params =>{
@@ -57,13 +66,28 @@ export class ShowDetailComponent implements OnInit {
 
 
     this.showId = this.route.snapshot.params['id'];
+    this.showType = this.route.snapshot.params['type'];
 
-    this.show$ = this.movieService.getMovieById(this.showId);
-    this.showsVideos$ = this.movieService.getMovieVideos(this.showId);
-    this.showImages$ = this.movieService.getMoviesImages(this.showId);
-    this.showCast$ = this.movieService.getMovieCast(this.showId);
-    this.similarShows$ = this.movieService.getMovieSimilar(this.showId);
+    if (this.showType === 'movie') {
+      this.show$ = this.movieService.getMovieById(this.showId);
+      this.showsVideos$ = this.movieService.getMovieVideos(this.showId);
+      this.showImages$ = this.movieService.getMoviesImages(this.showId);
+      this.showCast$ = this.movieService.getMovieCast(this.showId);
+      this.similarShows$ = this.movieService.getMovieSimilar(this.showId);
 
+    } else if (this.showType === 'tv') {
+      this.show$ = this.tvService
+        .getTvShowById(this.showId)
+        .pipe(
+          map(mapToMovie)
+        );
+      this.showsVideos$ = this.tvService.getTvShowVideos(this.showId);
+      this.showImages$ = this.tvService.getTvShowImages(this.showId);
+      this.showCast$ = this.tvService.getTvShowCast(this.showId);
+      this.similarShows$ = this.tvService
+        .getTvShowSimilar(this.showId)
+        .pipe(map(mapToMovies));
+    }
   }
 
 

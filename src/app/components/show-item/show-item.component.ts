@@ -16,15 +16,9 @@ import {Router, RouterLink} from "@angular/router";
 })
 export class ShowItemComponent {
   @Input() showItem: Movie | null = null;
-  @Input() currentDetailId: number | undefined;
+  @Input() showType: 'tv' | 'movie' = 'movie';
   imageBaseUrl = imagesBaseUrl;
 
-  constructor(private router: Router) {
-  }
 
-  navigateToDetail() {
-    if (this.currentDetailId !== this.showItem?.id) {
-      this.router.navigate(['/detail', this.showItem?.id]);
-    }
-  }
+
 }

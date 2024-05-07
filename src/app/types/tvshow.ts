@@ -32,3 +32,22 @@ export function mapToMovies(tvshows: Tvshow[]): Movie[] {
     };
   });
 }
+
+export function mapToMovie(tvshow: Tvshow): Movie {
+  return {
+    ...tvshow,
+    title: tvshow.name,
+    original_title: tvshow.original_name,
+  };
+}
+
+
+export type Genre = {
+  id:string;
+  name:string;
+}
+
+export type Languages ={
+  iso_639_1:string;
+  name: string;
+}
