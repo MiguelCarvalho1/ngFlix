@@ -75,4 +75,12 @@ export class TvshowsService {
       );
 
   }
+  searchTvShows(page: number, searchValue?: string ){
+    const uri = searchValue ? 'search/tv' : 'tv/popular'
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<TvshowsDto>(`${this.apiUrl}/${uri}?query=${searchValue}&page=${page}`, { headers });
+
+  }
 }

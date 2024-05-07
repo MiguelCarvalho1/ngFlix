@@ -75,4 +75,14 @@ export class MovieService {
 
   }
 
+  searchMovie(page: number, searchValue?: string ){
+    const uri = searchValue ? 'search/movie' : 'movie/popular'
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${this.apiKey}`);
+    return this.http.get<MoviesDTO>(`${this.apiUrl}/${uri}?query=${searchValue}&page=${page}`, { headers });
+
+  }
+
+
 }
